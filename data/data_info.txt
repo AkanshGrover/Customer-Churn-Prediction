@@ -1,0 +1,2 @@
+Dataset downloaded from https://www.kaggle.com/datasets/shantanudhakadd/bank-customer-churn-prediction
+Credits for creating the dataset go to the respective authors.
