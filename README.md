@@ -25,3 +25,5 @@ As part of my machine learning internship, I have been tasked with creating a mo
 
 **Demo**
 
+
+https://github.com/AkanshGrover/Customer-Churn-Prediction/assets/163346711/94f22be3-04b2-49ec-9fbd-5bf6d7674398
