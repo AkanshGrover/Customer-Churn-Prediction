@@ -2,7 +2,7 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QMessageBox, QFileDial
 from mainui import Ui_MainWindow
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
-import sys, re, os, chardet
+import sys, re, os, chardet, pickle
 import pandas as pd
 import numpy as np
 
@@ -21,8 +21,15 @@ class MainWindow(QMainWindow):
         train_data = self.load_file(data_loc)
         x_train = self.finalize_file(train_data)
         y_train = train_data["Exited"]
-        self.model = RandomForestClassifier(n_estimators=100, random_state=42)
-        self.model.fit(x_train, y_train)
+        m_path = os.path.join("model", "model.pkl")
+        if os.path.isfile(m_path):
+            with open(m_path, 'rb') as f:
+                self.model = pickle.load(f)
+        else:
+            self.model = RandomForestClassifier(n_estimators=100, random_state=42)
+            self.model.fit(x_train, y_train)
+            with open(m_path, 'wb') as f:
+                pickle.dump(self.model, f)
 
 
     def clear_entry(self):
@@ -78,7 +85,7 @@ class MainWindow(QMainWindow):
             f = os.path.split(sel_file[0])[-1].split(".")
             new_f = "".join(f[:-1]) + "_result." + f[-1]
             df.to_csv(os.path.join(d, new_f))
-            QMessageBox.information(self, "Bank Customer Churn Predictor", f"Prediction saved to {new_f}")
+            QMessageBox.information(self, "Bank Customer Churn Predictor", f"Prediction saved to {new_f}.\n1 means that the customer will exit and 0 means that the customer will not.")
 
 
     def check_data(self):
